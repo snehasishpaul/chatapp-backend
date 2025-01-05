@@ -4,6 +4,7 @@ import com.snehasish.websocket.chatapp.entities.Room;
 import com.snehasish.websocket.chatapp.payload.Constants;
 import com.snehasish.websocket.chatapp.payload.Request;
 import com.snehasish.websocket.chatapp.payload.Response;
+import com.snehasish.websocket.chatapp.payload.RoomRequest;
 import com.snehasish.websocket.chatapp.repositories.RoomRepository;
 import com.snehasish.websocket.chatapp.services.RoomService;
 import jakarta.validation.Valid;
@@ -25,14 +26,14 @@ public class RoomController {
 
     //create room
     @PostMapping
-    public ResponseEntity<Response<?>> createRoom(@Valid @RequestBody Request request) {
-        Response<?> res = roomService.createRoom(request);
+    public ResponseEntity<Response<?>> createRoom(@Valid @RequestBody RoomRequest request) {
+        Response<?> res = roomService.createRoom(request.getRoomId());
         return ResponseEntity.status(res.getHttpStatus()).body(res);
     }
 
     //get room
     @GetMapping("/{roomId}")
-    public ResponseEntity<Response<?>> joinRoom(@Valid @PathVariable("roomId") Request request) {
+    public ResponseEntity<Response<?>> joinRoom(@Valid @PathVariable("roomId") RoomRequest request) {
         Response<?> res = roomService.joinRoom(request.getRoomId());
         return ResponseEntity.status(res.getHttpStatus()).body(res);
     }
@@ -40,7 +41,7 @@ public class RoomController {
 
     //get messages for room
     @GetMapping("/{roomId}/messages")
-    public ResponseEntity<Response<?>> getMessagesForRoom(@Valid @PathVariable("roomId") Request request,
+    public ResponseEntity<Response<?>> getMessagesForRoom(@Valid @PathVariable("roomId") RoomRequest request,
                                                           @RequestParam(value = "page", defaultValue = "0", required = false) int page,
                                                           @RequestParam(value = "size", defaultValue = "10", required = false) int size) {
         Response<?> res = roomService.getMessagesForRoom(request.getRoomId(), page, size);

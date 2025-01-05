@@ -11,7 +11,7 @@ public interface RoomService {
 
     Response<?> joinRoom(@NotBlank String roomId);
 
-    Response<?> createRoom(@Valid Request request);
+    Response<?> createRoom(@NotBlank String roomId);
 
     Response<?> getMessagesForRoom(@NotBlank String roomId, int page, int size);
 }

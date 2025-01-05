@@ -21,8 +21,8 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
 
     @Override
-    public Response<?> createRoom(Request request) {
-        Optional<Room> roomOpt = roomRepository.findByRoomId(request.getRoomId());
+    public Response<?> createRoom(String roomId) {
+        Optional<Room> roomOpt = roomRepository.findByRoomId(roomId);
         if (roomOpt.isPresent()) {
             return Response.builder()
                     .message("Room Already Exists.")
@@ -36,7 +36,7 @@ public class RoomServiceImpl implements RoomService {
 
 //        Room room = Room.builder().roomId(request.getRoomId()).build();
         Room room = new Room();
-        room.setRoomId(request.getRoomId());
+        room.setRoomId(roomId);
         Room savedRoom = roomRepository.save(room);
         return Response.builder()
                 .content(savedRoom)
